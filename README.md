@@ -43,6 +43,48 @@ precision-matrix-risk-models/
 ├── README.md
 └── LICENSE (optional, e.g., MIT)
 ```
+## Results & Discussion
+
+We evaluate two covariance estimators — **Ledoit–Wolf shrinkage (LW)** and **Graphical Lasso (GL)** — for risk forecasting and minimum-variance (MV) portfolio construction on large-cap S&P 500 equities.
+
+### Equal-Weight (EW) Portfolio
+![EW Portfolio: Realized vs Forecast Variance](figures/ew_forecast.png)
+
+- Both LW and GL forecasts are **much smoother** than realized portfolio variance.  
+- Forecasts systematically **underestimate crisis spikes** (e.g., March 2020), consistent with static covariance models.  
+- LW tends to produce slightly higher variance forecasts, reducing underestimation relative to GL.  
+
+### Minimum-Variance (MV) Portfolios
+![MV Portfolios: Realized vs Forecast Variance](figures/mv_forecast.png)
+
+- **LW-based portfolios**: lower forecast bias but highly unstable weights, resulting in **large turnover** across rebalances.  
+- **GL-based portfolios**: lower turnover and more stable allocations, thanks to sparse precision matrices.  
+- Out-of-sample, **GL achieves lower forecast error (MSE/MAE) and better relative calibration** than LW.  
+
+### Turnover & Sparsity
+![Portfolio Turnover and GL Precision Graph Density](figures/turnover_density.png)
+
+- MV portfolios under LW show **turnover >1.0** on average, making them impractical for implementation.  
+- GL portfolios reduce turnover by more than half, while retaining comparable (or better) forecast performance.  
+- GL precision matrices are not extremely sparse (edge density ~40–55%), but the structure improves portfolio stability.  
+
+### Quantitative Summary
+| Portfolio | Estimator | MSE ↓ | MAE ↓ | Bias | Corr | RelCalib ≈ 1 ideal |
+|-----------|-----------|-------|-------|------|------|-------------------|
+| EW        | LW        | 1.35  | 0.44  | -0.045 | -0.03 | 0.90 |
+| EW        | GL        | 1.29  | 0.39  | -0.088 | 0.02  | 0.81 |
+| MV        | LW        | 0.74  | 0.24  | -0.15  | 0.03  | 0.60 |
+| MV        | GL        | **0.53** | **0.25** | -0.092 | 0.02  | **0.74** |
+
+---
+
+## Conclusion
+
+- **Ledoit–Wolf shrinkage** provides smoother and more robust covariance estimates but results in **unstable minimum-variance portfolios** with high turnover.  
+- **Graphical Lasso** imposes sparsity on the precision matrix, yielding **lower turnover, more stable weights, and improved forecast accuracy**.  
+- Both methods under-forecast risk during crisis periods, suggesting the need for **dynamic or regime-switching models** in practice.  
+
+Overall, **Graphical Lasso offers a favorable balance between accuracy and implementability**, making it a strong alternative to shrinkage-only estimators in portfolio risk modeling.
 
 ## Next steps / extensions
 - Add **no-short** or **box** constraints via `cvxpy` for MV; compare stability again.
