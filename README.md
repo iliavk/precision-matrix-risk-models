@@ -62,7 +62,7 @@ We evaluate two covariance estimators — **Ledoit–Wolf shrinkage (LW)** and *
 - Out-of-sample, **GL achieves lower forecast error (MSE/MAE) and better relative calibration** than LW.  
 
 ### Turnover & Sparsity
-![Portfolio Turnover and GL Precision Graph Density](figures/gl_alpha.png)
+![Portfolio Turnover and GL Precision Graph Density](figures/turnover_density.png)
 
 - MV portfolios under LW show **turnover >1.0** on average, making them impractical for implementation.  
 - GL portfolios reduce turnover by more than half, while retaining comparable (or better) forecast performance.  
