@@ -19,12 +19,6 @@
 - This repo shows how those differences show up in **out-of-sample risk** and **portfolio stability**.
 
 ## Quickstart
-```bash
-# (optional) create a venv
-python -m venv .venv && source .venv/bin/activate  # on Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-```
-
 Open the notebook and run all cells.
 - To change the universe, edit the `tickers` list in section **1) Data**.
 - For more assets, be mindful of GraphicalLassoCV runtime; you can pre-specify an `alphas` grid or reduce frequency.
